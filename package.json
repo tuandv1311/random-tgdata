@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon main.ts",
+    "dev": "nodemon main.ts",
     "build": "tsc",
+    "start": "node dist/main.js",
     "format": "prettier --write \"**/*.{js,ts,json}\"",
     "lint": "eslint --fix \"**/*.{js,ts,json}\""
   },
