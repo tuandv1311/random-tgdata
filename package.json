@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon main.ts"
+    "start": "nodemon main.ts",
+    "build": "tsc",
+    "format": "prettier --write \"**/*.{js,ts,json}\"",
+    "lint": "eslint --fix \"**/*.{js,ts,json}\""
   },
   "author": "",
   "license": "ISC",
