@@ -1,24 +1,30 @@
 import { createHmac } from "crypto";
-import { v4 as uuidv4 } from "uuid";
 
 export const randomTelegramData = () => {
   const user = {
-    id: randomIntFromInterval(Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER),
-    first_name: "Minh",
-    last_name: "Hoang",
-    username: "hoang_mint",
+    id: randomIntFromInterval(1000000000, 9999999999),
+    first_name: "Tuan",
+    last_name: "Nguye",
+    username: "uyen_bn",
     language_code: "en",
-    is_premium: false,
     allows_write_to_pm: true,
+    photourl:
+      "https:\\/\\/t.me\\/i\\/userpic\\/320\\/SJt39NnWMPOm5F1tf676eR5Jp-cg3FypHhSQBZj04w.svg",
   };
 
   const data: Record<string, string> = {
-    query_id: uuidv4(),
     user: JSON.stringify(user),
-    auth_date: Date.now().toString(),
+    chat_instance: randomIntFromInterval(
+      1000000000000000000,
+      4000000000000000000
+    ).toString(),
+    chat_type: "private",
+    auth_date: Math.floor(Date.now() / 1000).toString(),
+    signature: generateRandomSignature(),
   };
 
   const hashString = generateHashString(data);
+  console.log(hashString);
   const hash = generateHash(hashString);
 
   data.hash = hash;
@@ -33,17 +39,30 @@ export const generateHashString = (data: Record<string, string>) => {
 };
 
 export const generateHash = (data: string): string => {
-  const botId = "<YOUR_BOT_ID_HERE>";
-  const hasher1 = createHmac("sha256", "WebAppData");
-  hasher1.update(botId);
-  const secretKey = hasher1.digest("binary");
+  const botId = "7234824033:AAHr6SRtmxZV-25PJCyLULMHpbQiLJR2NkE";
+  // const hasher1 = createHmac("sha256", "WebAppData");
+  // hasher1.update(botId);
+  // const secretKey = hasher1.digest();
+  // console.log(secretKey);
 
-  const hasher2 = createHmac("sha256", secretKey);
-  hasher2.update(data);
-  return hasher2.digest("hex");
+  // const hasher2 = createHmac("sha256", secretKey);
+  // hasher2.update(data);
+  // return hasher2.digest("hex");
+  const secretKey = createHmac("sha256", "WebAppData").update(botId).digest();
+  return createHmac("sha256", secretKey).update(data).digest("hex");
 };
 
 function randomIntFromInterval(min: number, max: number) {
   // min and max included
   return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+function generateRandomSignature(): string {
+  const chars =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
+  let result = "";
+  for (let i = 0; i < 86; i++) {
+    result += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return result;
 }
