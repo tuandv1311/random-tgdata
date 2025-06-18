@@ -39,7 +39,7 @@ export const generateHashString = (data: Record<string, string>) => {
 };
 
 export const generateHash = (data: string): string => {
-  const botId = "7234824033:AAHr6SRtmxZV-25PJCyLULMHpbQiLJR2NkE";
+  const botId = "BOT_TOKEN";
   // const hasher1 = createHmac("sha256", "WebAppData");
   // hasher1.update(botId);
   // const secretKey = hasher1.digest();
